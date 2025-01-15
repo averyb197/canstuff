@@ -35,7 +35,7 @@ def make_prompts(instructions, wordlist, available_models, num_per_prompt):
             for k in range(len(wordlist)):
                 prompt = instructions + wordlist[k]
                 #this object will be passed directly to curl_request as the message object
-                message_object = f'{{"model":"{model}", "prompt":"{prompt}", "stream":false}}'
+                message_object = json.dumps('{"model":"{model}", "prompt":"{prompt}", "stream":false}')
                 key = model + "_" + wordlist[k] + f"_{n+1}"
                 keylist.append(key)
                 promptlist.append(message_object)
