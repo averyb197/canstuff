@@ -25,20 +25,24 @@ def load_models(models_path):
         return models
 
 
-def make_prompts(instructions, wordlist, available_models):
+def make_prompts(instructions, wordlist, available_models, num_per_prompt):
     promptlist = []
     keylist = []
-    for i in range(len(available_models)):
-        model = available_models[i]
-        for k in range(len(wordlist)):
-            prompt = instructions + wordlist[k]
-            #this object will be passed directly to curl_request as the message object
-            message_object = f'{"model":"{model}", "prompt":"{prompt}", "stream":false}'
-            key = model + "_" + wordlist[k]
-            keylist.append(key)
-            promptlist.append(message_object)
+    for n in range(num_per_prompt):
+
+        for i in range(len(available_models)):
+            model = available_models[i]
+            for k in range(len(wordlist)):
+                prompt = instructions + wordlist[k]
+                #this object will be passed directly to curl_request as the message object
+                message_object = f'{{"model":"{model}", "prompt":"{prompt}", "stream":false}}'
+                key = model + "_" + wordlist[k] + f"_{n+1}"
+                keylist.append(key)
+                promptlist.append(message_object)
     outlist = [keylist, promptlist]
     return outlist
+
+print(make_prompts(task_instructs, prompt_words, load_models("models.txt"), 2))
 
 def parse_message(response_string):
     response_json = json.loads(response_string)
@@ -73,8 +77,6 @@ def gen_essays(promptlist, outpath):
 
 test_p = [["marioyoyo", "llama33yoyo"],['{"model":"mario", "prompt":"yoyo", "stream":false}', '{"model":"llama3.3", "prompt":"yoyo", "stream":false}']]
 
-gen_essays(test_p)
-
 # test = curl_request("mario", "Hey")
 # print(test)
 
@@ -102,8 +104,8 @@ def main():
 
 
 
-
-if __name__ == "__main__":
-    main()
+#
+# if __name__ == "__main__":
+#     main()
 
 
