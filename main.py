@@ -3,8 +3,7 @@ import json
 import argparse
 
 URL = "147.126.2.105:11438/api/generate"
-OUTPUT_PATH = "test.json"
-mpath = "models.txt"
+
 task_instructs = ("You will be given 3 words, and you must write a very short story "
                   "that is 4 to 6 sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   "when writing your story. The 3 words are: ")
@@ -25,7 +24,6 @@ def load_models(models_path):
         models = rawtxt.split(",")
         return models
 
-models = load_models(mpath)
 
 def make_prompts(instructions, wordlist, available_models):
     promptlist = []
@@ -40,8 +38,7 @@ def make_prompts(instructions, wordlist, available_models):
             keylist.append(key)
             promptlist.append(message_object)
     outlist = [keylist, promptlist]
-   # print(outlist, len(outlist[0]))
-make_prompts(task_instructs, prompt_words, models)
+    return outlist
 
 def parse_message(response_string):
     response_json = json.loads(response_string)
@@ -88,10 +85,10 @@ def main():
     parser.add_argument("-of", "--output-file", type=str, required=True, help=".json filepath where essays will be written to")
 
     args=parser.parse_args()
+
     if args.url is not None:
+        global URL
         URL = args.url
-    else:
-        URL = "147.126.2.105:11438/api/generate"
 
     model_list = load_models(args.model_list)
     outputfile = args.output_file
