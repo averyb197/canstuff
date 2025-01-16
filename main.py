@@ -50,7 +50,7 @@ def parse_message(response_string):
     response_json = json.loads(response_string)
     #print(response_json)
     try:
-        response_text = response_json["Response"]
+        response_text = response_json["response"]
         return response_text
     except KeyError as e:
         print(e)
