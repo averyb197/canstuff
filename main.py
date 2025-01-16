@@ -52,7 +52,7 @@ def parse_message(response_string):
     try:
         response_text = response_json["Response"]
     except KeyError as e:
-	print(e)
+        print(e)
 
     return response_text
 
