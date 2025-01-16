@@ -81,7 +81,7 @@ def gen_essays(promptlist, outpath):
         essays[keys[i]] = curr_essay
     print(len(essays))
     with open(outpath, "w") as feil:
-        json.dump(essays, feil)
+        json.dump(essays, feil, indent=4)
 
 test_p = [["marioyoyo", "llama33yoyo"],['{"model":"mario", "prompt":"yoyo", "stream":false}', '{"model":"llama3.3", "prompt":"yoyo", "stream":false}']]
 
