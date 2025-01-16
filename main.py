@@ -51,10 +51,9 @@ def parse_message(response_string):
     #print(response_json)
     try:
         response_text = response_json["Response"]
+        return response_text
     except KeyError as e:
         print(e)
-
-    return response_text
 
 # model and prompt should be strings
 # using subprocesses because post requests are annoying with this API and curl is better
