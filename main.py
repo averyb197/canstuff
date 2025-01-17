@@ -6,10 +6,17 @@ from tqdm import tqdm
 #Default for ollama on our server, generally it 11434 tho
 URL = "127.0.0.1:11438/api/generate"
 NUM_PER_PROMPT = 1
-
+GRADE_LEVEL = None
 task_instructs = ("You will be given 3 words, and you must write a very short story "
                   "that is 4 to 6 sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   "when writing your story. The 3 words are: ")
+
+varied_grade_instructs = (f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
+                  "that is 4 to 6 sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  "when writing your story. The 3 words are: ")
+
+
+
 prompt_words = [
     "stamp-letter-send",
     "petrol-diesel-pump",
@@ -25,6 +32,7 @@ def load_models(models_path):
     with open(models_path, "r") as feil:
         rawtxt = feil.read()
         models = rawtxt.split(",")
+        models = [mod.strip("\n") for mod in models]
         return models
 
 
@@ -37,6 +45,8 @@ def make_prompts(instructions, wordlist, available_models):
             for k in range(len(wordlist)):
                 prompt = instructions + wordlist[k]
                 #this object will be passed directly to curl_request as the message object
+		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
+		#UNTIL I DISCOVERED HOW TO TYPE python3 
                 message_object = '{{"model":"{}", "prompt":"{}", "stream":false}}'.format(model, prompt)
                 key = model + "_" + wordlist[k] + "_" + str(n+1)
                 keylist.append(key)
@@ -44,11 +54,9 @@ def make_prompts(instructions, wordlist, available_models):
     outlist = [keylist, promptlist]
     return outlist
 
-#print(make_prompts(task_instructs, prompt_words, load_models("models.txt"), 2))
 
 def parse_message(response_string):
     response_json = json.loads(response_string)
-    #print(response_json)
     try:
         response_text = response_json["response"]
         return response_text
@@ -75,7 +83,7 @@ def gen_essays(promptlist, outpath):
     keys = promptlist[0]
     prompts = promptlist[1]
     essays = {}
-    for i in tqdm(range(len(keys)), desc="Doing your job for you", unit="Essays"):
+    for i in tqdm(range(len(keys)), desc="Doing your job for you", unit="Essay"):
         curr_prompt = prompts[i]
         curr_essay = curl_request(curr_prompt)
         essays[keys[i]] = curr_essay
@@ -85,8 +93,7 @@ def gen_essays(promptlist, outpath):
 
 test_p = [["marioyoyo", "llama33yoyo"],['{"model":"mario", "prompt":"yoyo", "stream":false}', '{"model":"llama3.3", "prompt":"yoyo", "stream":false}']]
 
-# test = curl_request("mario", "Hey")
-# print(test)
+
 
 def main():
     parser = argparse.ArgumentParser(description="This script is used for generating short stories")
@@ -94,6 +101,8 @@ def main():
     parser.add_argument("-mf", "--model-list", type=str, required=True, help=".txt file that contains the list of all models to be used. It should be a .txt file with model names saperated commas NO WHITESPACE EVER EVER EVER")
     parser.add_argument("-of", "--output-file", type=str, required=True, help=".json filepath where essays will be written to")
     parser.add_argument("-n", "--num-per-prompt", type=int, required=False, help="Use if you want to make more than 1 essay per prompt, default is 1")
+    parser.add_argument("-g", "--grade-level", type=int, required=False, help="Used to specify the grade level of the essays to be generated. Default is no specification. Specification uses slightly different prompt. See docs for details")
+
     args=parser.parse_args()
 
 
@@ -103,12 +112,18 @@ def main():
 
     if args.num_per_prompt is not None:
         global NUM_PER_PROMPT
-        NUM_PER_PROMPT = args.num-per-prompt
+        NUM_PER_PROMPT = args.num_per_prompt
 
     model_list = load_models(args.model_list)
     outputfile = args.output_file
 
-    prompt_set = make_prompts(task_instructs, prompt_words, model_list)
+    if args.grade_level is not None:
+        global GRADE_LEVEL
+        GRADE_LEVEL = args.grade_level
+        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list)
+    else:
+        prompt_set = make_prompts(task_instructs, prompt_words, model_list)
+   
     gen_essays(prompt_set, outputfile)
 
 if __name__ == "__main__":
