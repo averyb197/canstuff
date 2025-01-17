@@ -7,12 +7,15 @@ from tqdm import tqdm
 URL = "127.0.0.1:11438/api/generate"
 NUM_PER_PROMPT = 1
 GRADE_LEVEL = None
+LENGTH = "short"
+length_string = "4-6"
+
 task_instructs = ("You will be given 3 words, and you must write a very short story "
-                  "that is 4 to 6 sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  "that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   "when writing your story. The 3 words are: ")
 
 varied_grade_instructs = (f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
-                  "that is 4 to 6 sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  "that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   "when writing your story. The 3 words are: ")
 
 
@@ -48,7 +51,7 @@ def make_prompts(instructions, wordlist, available_models):
 		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
 		#UNTIL I DISCOVERED HOW TO TYPE python3 
                 message_object = '{{"model":"{}", "prompt":"{}", "stream":false}}'.format(model, prompt)
-                key = model + "_" + wordlist[k] + "_" + str(n+1)
+                key = model + "_" + wordlist[k] + "_" + str(n+1) + LENGTH
                 keylist.append(key)
                 promptlist.append(message_object)
     outlist = [keylist, promptlist]
@@ -101,8 +104,8 @@ def main():
     parser.add_argument("-mf", "--model-list", type=str, required=True, help=".txt file that contains the list of all models to be used. It should be a .txt file with model names saperated commas NO WHITESPACE EVER EVER EVER")
     parser.add_argument("-of", "--output-file", type=str, required=True, help=".json filepath where essays will be written to")
     parser.add_argument("-n", "--num-per-prompt", type=int, required=False, help="Use if you want to make more than 1 essay per prompt, default is 1")
-    parser.add_argument("-g", "--grade-level", type=int, required=False, help="Used to specify the grade level of the essays to be generated. Default is no specification. Specification uses slightly different prompt. See docs for details")
-
+    parser.add_argument("-g", "--grade-level", type=str, required=False, help="Used to specify the grade level of the essays to be generated. Default is no specification. Specification uses slightly different prompt. May be a numerical value eg 8 or string eg. Undergraduate. See docs for details")
+    parser.add_argument("-l", "--length", type=str, required=False, help="Specify Length of the essays. Default is short (4-6 sentences). Long = 7-8 sentences.")
     args=parser.parse_args()
 
 
@@ -113,6 +116,12 @@ def main():
     if args.num_per_prompt is not None:
         global NUM_PER_PROMPT
         NUM_PER_PROMPT = args.num_per_prompt
+
+    if args.length == "long":
+        length_string = "7-8"	
+        LENGTH = "long"
+    if args.length is None:
+        print("No Length Specified, defaulting to short (4-6)")
 
     model_list = load_models(args.model_list)
     outputfile = args.output_file
