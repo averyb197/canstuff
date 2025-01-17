@@ -1,0 +1,3 @@
+Total Number of Essays: 252
+varied_temp_short.json: Num Essays = 126; Average Word Count = 137.92; Std Word Count = 11.78 
+varied_temp_grade8_short.json: Num Essays = 126; Average Word Count = 72.28; Std Word Count = 16.03 
