@@ -11,12 +11,12 @@ LENGTH = "short"
 length_string = "4-6"
 
 task_instructs = (f"You will be given 3 words, and you must write a very short story "
-                  "that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
-                  "when writing your story. The 3 words are: ")
+                  f"that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  f"when writing your story. The 3 words are: ")
 
 varied_grade_instructs = (f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
-                  "that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
-                  "when writing your story. The 3 words are: ")
+                  f"that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  f"when writing your story. The 3 words are: ")
 
 
 
@@ -49,7 +49,8 @@ def make_prompts(instructions, wordlist, available_models):
                 prompt = instructions + wordlist[k] + "Only include the story in your response"
                 #this object will be passed directly to curl_request as the message object
 		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
-		#UNTIL I DISCOVERED HOW TO TYPE python3 
+		#UNTIL I DISCOVERED HOW TO TYPE python3
+                print(prompt) 
                 message_object = '{{"model":"{}", "prompt":"{}", "stream":false}}'.format(model, prompt)
                 key = model + "_" + wordlist[k] + "_" + str(n+1) + LENGTH
                 keylist.append(key)
