@@ -10,12 +10,14 @@ GRADE_LEVEL = None
 LENGTH = "short"
 length_string = "4-6"
 
+print(GRADE_LEVEL, "WGHHWWHHW")
+
 task_instructs = (f"You will be given 3 words, and you must write a very short story "
-                  f"that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  f"that is {length_string}  sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   f"when writing your story. The 3 words are: ")
 
 varied_grade_instructs = (f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
-                  f"that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                  f"that is {length_string}  sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   f"when writing your story. The 3 words are: ")
 
 
@@ -49,8 +51,7 @@ def make_prompts(instructions, wordlist, available_models):
                 prompt = instructions + wordlist[k] + "Only include the story in your response"
                 #this object will be passed directly to curl_request as the message object
 		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
-		#UNTIL I DISCOVERED HOW TO TYPE python3
-                print(prompt) 
+		#UNTIL I DISCOVERED HOW TO TYPE python3 
                 message_object = '{{"model":"{}", "prompt":"{}", "stream":false}}'.format(model, prompt)
                 key = model + "_" + wordlist[k] + "_" + str(n+1) + LENGTH
                 keylist.append(key)
@@ -70,12 +71,9 @@ def parse_message(response_string):
 # model and prompt should be strings
 # using subprocesses because post requests are annoying with this API and curl is better
 def curl_request(message_object):
-    #double brackets to escape the ones that matter so you dont get yelled at
-    #payload = f'{{"model":"{model}", "prompt":"{prompt}", "stream":false}}'
     command = ["curl", URL,"-s", "-d", message_object]
     try:
         response = subprocess.run(command, stdout=subprocess.PIPE, universal_newlines=True, check=True)
-        #print("Response:", response.stdout, type(response.stdout))
         return parse_message(response.stdout)
     except subprocess.CalledProcessError as e:
         print("Error:", e.stderr)
@@ -89,13 +87,12 @@ def gen_essays(promptlist, outpath):
     essays = {}
     for i in tqdm(range(len(keys)), desc="Doing your job for you", unit="Essay"):
         curr_prompt = prompts[i]
+        print(curr_prompt)
         curr_essay = curl_request(curr_prompt)
         essays[keys[i]] = curr_essay
     print(len(essays))
     with open(outpath, "w") as feil:
         json.dump(essays, feil, indent=4)
-
-test_p = [["marioyoyo", "llama33yoyo"],['{"model":"mario", "prompt":"yoyo", "stream":false}', '{"model":"llama3.3", "prompt":"yoyo", "stream":false}']]
 
 
 
@@ -108,7 +105,6 @@ def main():
     parser.add_argument("-g", "--grade-level", type=str, required=False, help="Used to specify the grade level of the essays to be generated. Default is no specification. Specification uses slightly different prompt. May be a numerical value eg 8 or string eg. Undergraduate. See docs for details")
     parser.add_argument("-l", "--length", type=str, required=False, help="Specify Length of the essays. Default is short (4-6 sentences). Long = 7-8 sentences.")
     args=parser.parse_args()
-
 
     if args.url is not None:
         global URL
@@ -124,12 +120,19 @@ def main():
     if args.length is None:
         print("No Length Specified, defaulting to short (4-6)")
 
+
+  
+
+
+
     model_list = load_models(args.model_list)
     outputfile = args.output_file
 
     if args.grade_level is not None:
+        print(args.grade_level)
         global GRADE_LEVEL
         GRADE_LEVEL = args.grade_level
+        
         prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list)
     else:
         prompt_set = make_prompts(task_instructs, prompt_words, model_list)
