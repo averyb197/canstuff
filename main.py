@@ -46,7 +46,7 @@ def make_prompts(instructions, wordlist, available_models):
         for i in range(len(available_models)):
             model = available_models[i]
             for k in range(len(wordlist)):
-                prompt = instructions + wordlist[k]
+                prompt = instructions + wordlist[k] + "Only include the story in your response"
                 #this object will be passed directly to curl_request as the message object
 		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
 		#UNTIL I DISCOVERED HOW TO TYPE python3 
