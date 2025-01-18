@@ -10,7 +10,7 @@ GRADE_LEVEL = None
 LENGTH = "short"
 length_string = "4-6"
 
-task_instructs = ("You will be given 3 words, and you must write a very short story "
+task_instructs = (f"You will be given 3 words, and you must write a very short story "
                   "that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
                   "when writing your story. The 3 words are: ")
 
