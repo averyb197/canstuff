@@ -2,7 +2,7 @@ import subprocess
 import json
 import argparse
 from tqdm import tqdm
-
+URL = "127.0.0.1:11438/api/generate"
 # basically a .csv but round here we call it a .txt
 def load_models(models_path):
     with open(models_path, "r") as feil:
@@ -12,14 +12,14 @@ def load_models(models_path):
         return models
 
 
-def make_prompts(instructions, wordlist, available_models, LENGTH):
+def make_prompts(instructions, wordlist, available_models, LENGTH, NUM_PER_PROMPT):
     promptlist = []
     keylist = []
     for n in range(NUM_PER_PROMPT):
         for i in range(len(available_models)):
             model = available_models[i]
             for k in range(len(wordlist)):
-                prompt = instructions + wordlist[k] + "Only include the story in your response"
+                prompt = instructions + wordlist[k] + " Only include the story in your response"
                 #this object will be passed directly to curl_request as the message object
 		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
 		#UNTIL I DISCOVERED HOW TO TYPE python3 
@@ -58,7 +58,6 @@ def gen_essays(promptlist, outpath):
     essays = {}
     for i in tqdm(range(len(keys)), desc="Doing your job for you", unit="Essay"):
         curr_prompt = prompts[i]
-        print(curr_prompt)
         curr_essay = curl_request(curr_prompt)
         essays[keys[i]] = curr_essay
     print(len(essays))
@@ -79,7 +78,7 @@ def main():
 
     LENGTH = "short"
     length_string = "4-6"
-    URL = "127.0.0.1:11438/api/generate"
+#    URL = "127.0.0.1:11438/api/generate"
 
     NUM_PER_PROMPT = 1
     GRADE_LEVEL = None
@@ -90,7 +89,6 @@ def main():
         URL = args.url
 
     if args.num_per_prompt is not None:
-        global NUM_PER_PROMPT
         NUM_PER_PROMPT = args.num_per_prompt
 
     if args.length == "long":
@@ -107,9 +105,9 @@ def main():
                       f"when writing your story. The 3 words are: ")
 
     varied_grade_instructs = (
-        f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
+        f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level "
         f"that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
-        f"when writing your story. The 3 words are:  ")
+        f"when writing your story. The 3 words are: ")
 
     prompt_words = [
         "stamp-letter-send",
@@ -125,9 +123,9 @@ def main():
     outputfile = args.output_file
 
     if args.grade_level is not None:
-        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list, LENGTH)
+        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list, LENGTH, NUM_PER_PROMPT)
     else:
-        prompt_set = make_prompts(task_instructs, prompt_words, model_list, LENGTH)
+        prompt_set = make_prompts(task_instructs, prompt_words, model_list, LENGTH, NUM_PER_PROMPT)
    
     gen_essays(prompt_set, outputfile)
 

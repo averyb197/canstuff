@@ -1,12 +1,12 @@
 Total Number of Essays: 1386
-varied_temp_grade12_short.json: Num Essays = 126; Average Word Count = 123.44; Std Word Count = 12.59 
-varied_temp_grade8_short.json: Num Essays = 126; Average Word Count = 123.86; Std Word Count = 12.69 
+varied_temp_grade12_short.json: Num Essays = 126; Average Word Count = 147.54; Std Word Count = 13.54 
+varied_temp_grade8_short.json: Num Essays = 126; Average Word Count = 133.67; Std Word Count = 12.66 
 varied_temp_short.json: Num Essays = 126; Average Word Count = 137.92; Std Word Count = 11.78 
 varied_temp_grade12_long.json: Num Essays = 126; Average Word Count = 69.15; Std Word Count = 16.55 
 varied_temp_grade8_long.json: Num Essays = 126; Average Word Count = 69.82; Std Word Count = 18.4 
-varied_temp_grade10_short.json: Num Essays = 126; Average Word Count = 123.6; Std Word Count = 13.79 
-varied_temp_grade6_long.json: Num Essays = 126; Average Word Count = 124.71; Std Word Count = 11.66 
-varied_temp_grade6_short.json: Num Essays = 126; Average Word Count = 121.53; Std Word Count = 12.46 
+varied_temp_grade10_short.json: Num Essays = 126; Average Word Count = 137.56; Std Word Count = 13.63 
+varied_temp_grade6_long.json: Num Essays = 126; Average Word Count = 163.13; Std Word Count = 12.23 
+varied_temp_grade6_short.json: Num Essays = 126; Average Word Count = 124.9; Std Word Count = 10.1 
 varied_temp_grade8_short: Num Essays = 126; Average Word Count = 67.33; Std Word Count = 14.19 
 varied_temp_grade6.json: Num Essays = 126; Average Word Count = 74.22; Std Word Count = 15.72 
 varied_temp_grade10_long.json: Num Essays = 126; Average Word Count = 68.48; Std Word Count = 16.58 
