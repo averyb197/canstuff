@@ -3,35 +3,6 @@ import json
 import argparse
 from tqdm import tqdm
 
-#Default for ollama on our server, generally it 11434 tho
-URL = "127.0.0.1:11438/api/generate"
-NUM_PER_PROMPT = 1
-GRADE_LEVEL = None
-LENGTH = "short"
-length_string = "4-6"
-
-print(GRADE_LEVEL, "WGHHWWHHW")
-
-task_instructs = (f"You will be given 3 words, and you must write a very short story "
-                  f"that is {length_string}  sentences long, that includes all 3 words. Try to use your imagination and be creative "
-                  f"when writing your story. The 3 words are: ")
-
-varied_grade_instructs = (f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
-                  f"that is {length_string}  sentences long, that includes all 3 words. Try to use your imagination and be creative "
-                  f"when writing your story. The 3 words are: ")
-
-
-
-prompt_words = [
-    "stamp-letter-send",
-    "petrol-diesel-pump",
-    "year-week-embark",
-    "statement-stealth-detect",
-    "belief-faith-sing",
-    "organ-empire-comply",
-    "gloom-payment-exist"
-]
-
 # basically a .csv but round here we call it a .txt
 def load_models(models_path):
     with open(models_path, "r") as feil:
@@ -41,7 +12,7 @@ def load_models(models_path):
         return models
 
 
-def make_prompts(instructions, wordlist, available_models):
+def make_prompts(instructions, wordlist, available_models, LENGTH):
     promptlist = []
     keylist = []
     for n in range(NUM_PER_PROMPT):
@@ -106,6 +77,14 @@ def main():
     parser.add_argument("-l", "--length", type=str, required=False, help="Specify Length of the essays. Default is short (4-6 sentences). Long = 7-8 sentences.")
     args=parser.parse_args()
 
+    LENGTH = "short"
+    length_string = "4-6"
+    URL = "127.0.0.1:11438/api/generate"
+
+    NUM_PER_PROMPT = 1
+    GRADE_LEVEL = None
+
+
     if args.url is not None:
         global URL
         URL = args.url
@@ -115,27 +94,40 @@ def main():
         NUM_PER_PROMPT = args.num_per_prompt
 
     if args.length == "long":
-        length_string = "7-8"	
+        length_string = "7-8"
         LENGTH = "long"
     if args.length is None:
         print("No Length Specified, defaulting to short (4-6)")
 
+    if args.grade_level is not None:
+        GRADE_LEVEL = args.grade_level
 
-  
+    task_instructs = (f"You will be given 3 words, and you must write a very short story "
+                      f"that is {length_string}  sentences long, that includes all 3 words. Try to use your imagination and be creative "
+                      f"when writing your story. The 3 words are: ")
 
+    varied_grade_instructs = (
+        f"You will be given 3 words, and you must write a very short story at a grade {GRADE_LEVEL} reading level"
+        f"that is {length_string} sentences long, that includes all 3 words. Try to use your imagination and be creative "
+        f"when writing your story. The 3 words are:  ")
 
+    prompt_words = [
+        "stamp-letter-send",
+        "petrol-diesel-pump",
+        "year-week-embark",
+        "statement-stealth-detect",
+        "belief-faith-sing",
+        "organ-empire-comply",
+        "gloom-payment-exist"
+    ]
 
     model_list = load_models(args.model_list)
     outputfile = args.output_file
 
     if args.grade_level is not None:
-        print(args.grade_level)
-        global GRADE_LEVEL
-        GRADE_LEVEL = args.grade_level
-        
-        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list)
+        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list, LENGTH)
     else:
-        prompt_set = make_prompts(task_instructs, prompt_words, model_list)
+        prompt_set = make_prompts(task_instructs, prompt_words, model_list, LENGTH)
    
     gen_essays(prompt_set, outputfile)
 
