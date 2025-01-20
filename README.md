@@ -1,4 +1,4 @@
-# canstuff
+s# canstuff
 
 Code used to generate a lot of short stories. I am doing this to give one to every child in america so that they may cheat.
 
@@ -46,7 +46,7 @@ Now you can generate the whole set of essays with ```genrate_essays.sh``` or gen
 Example for generate an individual set with ```main.py```
 
 ```bash
-python3 main.py --url 127.0.0.1:11434 --model-list 
+python3 main.py --url 127.0.0.1:11434 --model-list models.txt --output-file test_essays.json --num-per-prompt 3 --grade-level 10 --length "short"
 ```
 
 
