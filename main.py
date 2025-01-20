@@ -2,7 +2,10 @@ import subprocess
 import json
 import argparse
 from tqdm import tqdm
+
+#url for where to reach the ollama API
 URL = "127.0.0.1:11438/api/generate"
+
 # basically a .csv but round here we call it a .txt
 def load_models(models_path):
     with open(models_path, "r") as feil:
@@ -11,7 +14,7 @@ def load_models(models_path):
         models = [mod.strip("\n") for mod in models]
         return models
 
-
+#generate the prompts for the models 
 def make_prompts(instructions, wordlist, available_models, LENGTH, NUM_PER_PROMPT):
     promptlist = []
     keylist = []
@@ -30,7 +33,7 @@ def make_prompts(instructions, wordlist, available_models, LENGTH, NUM_PER_PROMP
     outlist = [keylist, promptlist]
     return outlist
 
-
+#Extract text from the response
 def parse_message(response_string):
     response_json = json.loads(response_string)
     try:
@@ -51,7 +54,8 @@ def curl_request(message_object):
         return "ERROR IN API CALL: {}".format(e)
 
 #n_per_config specifies the number of essays to generate per unique combo of model (ie specific params)
-#and specific prompt in case we need more essays
+#and specific prompt 
+
 def gen_essays(promptlist, outpath):
     keys = promptlist[0]
     prompts = promptlist[1]
