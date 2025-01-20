@@ -40,6 +40,13 @@ Go back into bash in the container then run:
 ollama create MODELNAME –f FILENAME
 ```
 
-Then you can now communicate with the model.
+Now you can generate the whole set of essays with ```genrate_essays.sh``` or generate individual sets with ``main.py``
+
+## **Generating Essays**
+Example for generate an individual set with ```main.py```
+
+```bash
+python3 main.py --url 127.0.0.1:11434 --model-list 
+```
 
 
