@@ -1,0 +1,31 @@
+FROM llama3.3
+
+#This modelfile is for the chatbot used for hybrid AI writing
+#Unless specified, all parameters are the default parameters 
+
+PARAMETER mirostat 0
+
+PARAMETER mirostat_eta 0.1
+
+PARAMETER mirostat_tau 5.0
+
+#POSSIBLY CHANGEME
+PARAMETER num_ctx 2048
+
+PARAMETER repeat_last_n 64
+
+PARAMETER repeat_penalty 1.1
+
+PARAMETER temperature 0.8
+
+PARAMETER seed 0
+
+#no specification for stop parameter
+
+PARAMETER num_predict -1
+
+PARAMETER top_k 40
+
+PARAMETER top_p 0.9
+
+PARAMETER min_p 0.0
