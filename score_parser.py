@@ -19,5 +19,5 @@ for key, value in store.items():
 
 with open("sem_dis_scores.txt", "w") as feil:
     for key, val in store.items():
-        line = f"Temp: {key}; Mean DSI: {np.mean(val):.4f}; Std: {np.std(val):.4f}; Min/Max: ({min(val):.4f}, {max(val):.4f}) \n"
+        line = f"Temp: {key}; n = {len(val)}; Mean DSI: {np.mean(val):.4f}; Std: {np.std(val):.4f}; Min/Max: ({min(val):.4f}, {max(val):.4f}) \n"
         feil.write(line)
