@@ -2,7 +2,7 @@
 
 
 MODEL_FILE="models.txt"
-N_VALUE=3
+N_VALUE=1
 GRADES=(6 8 10 12)
 
 for GRADE in "${GRADES[@]}"; do

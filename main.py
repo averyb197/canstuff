@@ -15,7 +15,7 @@ def load_models(models_path):
         return models
 
 #generate the prompts for the models 
-def make_prompts(instructions, wordlist, available_models, LENGTH, NUM_PER_PROMPT):
+def make_prompts(instructions, wordlist, available_models, grade_level, LENGTH, NUM_PER_PROMPT):
     promptlist = []
     keylist = []
     for n in range(NUM_PER_PROMPT):
@@ -27,7 +27,7 @@ def make_prompts(instructions, wordlist, available_models, LENGTH, NUM_PER_PROMP
 		#DO NOT YELL AT ME FOR USING .format() I WAS ORIGINALLY TRYING TO GET THIS TO RUN ON PYTHON 2
 		#UNTIL I DISCOVERED HOW TO TYPE python3 
                 message_object = '{{"model":"{}", "prompt":"{}", "stream":false}}'.format(model, prompt)
-                key = model + "_" + wordlist[k] + "_" + str(n+1) + LENGTH
+                key = model + "_" + wordlist[k] + "_" + str(n+1) +"_" + grade_level + "_" +  LENGTH
                 keylist.append(key)
                 promptlist.append(message_object)
     outlist = [keylist, promptlist]
@@ -127,9 +127,9 @@ def main():
     outputfile = args.output_file
 
     if args.grade_level is not None:
-        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list, LENGTH, NUM_PER_PROMPT)
+        prompt_set = make_prompts(varied_grade_instructs, prompt_words, model_list,GRADE_LEVEL, LENGTH, NUM_PER_PROMPT)
     else:
-        prompt_set = make_prompts(task_instructs, prompt_words, model_list, LENGTH, NUM_PER_PROMPT)
+        prompt_set = make_prompts(task_instructs, prompt_words, model_list,"unspecGrade", LENGTH, NUM_PER_PROMPT)
    
     gen_essays(prompt_set, outputfile)
 
