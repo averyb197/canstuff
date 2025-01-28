@@ -1,7 +1,5 @@
 # Essay Set Generation
 
-Code used to generate a lot of short stories. I am doing this to give one to every child in america so that they may cheat.
-
 This code includes everything necessary to set up the models, and then generate an essay set with different parameters.
 
 ## **Creating Models In Ollama:**

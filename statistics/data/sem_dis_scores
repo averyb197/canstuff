@@ -1,0 +1,7 @@
+r = 0.0397; p = 0.1588
+Temp: temp0; n = 210; Mean DSI: 0.8101; Std: 0.0069; Min/Max: (0.7937, 0.8263) 
+Temp: temp2; n = 210; Mean DSI: 0.8098; Std: 0.0074; Min/Max: (0.7871, 0.8303) 
+Temp: temp4; n = 210; Mean DSI: 0.8106; Std: 0.0076; Min/Max: (0.7899, 0.8268) 
+Temp: temp6; n = 210; Mean DSI: 0.8110; Std: 0.0070; Min/Max: (0.7792, 0.8257) 
+Temp: temp8; n = 210; Mean DSI: 0.8108; Std: 0.0078; Min/Max: (0.7826, 0.8272) 
+Temp: temp10; n = 210; Mean DSI: 0.8105; Std: 0.0073; Min/Max: (0.7912, 0.8296) 
