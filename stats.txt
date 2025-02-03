@@ -1,0 +1,12 @@
+Total Number of Essays: 1050 
+Compiled at: 2025-02-02 18:26:11 
+varied_temp_grade12_short.json: Num Essays = 105; Average Word Count = 150.4; Std Word Count = 12.89; Average Sentence Count: 6.02 
+varied_temp_grade8_short.json: Num Essays = 105; Average Word Count = 134.34; Std Word Count = 12.79; Average Sentence Count: 6.06 
+varied_temp_short.json: Num Essays = 105; Average Word Count = 177.57; Std Word Count = 18.29; Average Sentence Count: 8.0 
+varied_temp_grade12_long.json: Num Essays = 105; Average Word Count = 193.15; Std Word Count = 14.85; Average Sentence Count: 8.03 
+varied_temp_long.json: Num Essays = 105; Average Word Count = 178.04; Std Word Count = 17.56; Average Sentence Count: 8.02 
+varied_temp_grade8_long.json: Num Essays = 105; Average Word Count = 175.86; Std Word Count = 14.08; Average Sentence Count: 8.02 
+varied_temp_grade10_short.json: Num Essays = 105; Average Word Count = 141.82; Std Word Count = 15.47; Average Sentence Count: 6.0 
+varied_temp_grade6_long.json: Num Essays = 105; Average Word Count = 164.34; Std Word Count = 13.48; Average Sentence Count: 8.06 
+varied_temp_grade6_short.json: Num Essays = 105; Average Word Count = 126.1; Std Word Count = 12.0; Average Sentence Count: 6.08 
+varied_temp_grade10_long.json: Num Essays = 105; Average Word Count = 185.97; Std Word Count = 17.07; Average Sentence Count: 8.01 

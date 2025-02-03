@@ -9,7 +9,7 @@ import re
 #File to save the statistics about generated essays
 write_file = "stats.txt"
 #Directory that contains all of the json essays sets
-data_path = "data/"
+data_path = "data/essay_set_1/"
 
 essay_sets = os.listdir(data_path)
 
