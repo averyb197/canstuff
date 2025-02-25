@@ -1,3 +1,0 @@
-FROM llama3.3
-
-PARAMETER temperature 0.8
